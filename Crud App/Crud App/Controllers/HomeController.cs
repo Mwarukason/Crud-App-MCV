@@ -1,4 +1,6 @@
 ﻿using System;
+//add the model to support the data entities
+using Crud_App.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +14,15 @@ namespace Crud_App.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult GetEmployees()
+        {
+            using (MyDatabaseEntities dc = new MyDatabaseEntities())
+            {
+                var employees = dc.Employees.OrderBy(a => a.FirstName).ToList();
+                return Json(new { data = employees }, JsonRequestBehavior.AllowGet);
+            }    
         }
     }
 }
